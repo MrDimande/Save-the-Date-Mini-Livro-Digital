@@ -1,0 +1,19 @@
+# IDE
+.cursor/
+.vscode/
+*.code-workspace
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Vercel
+.vercel
+
+# Ambiente / segredos
+.env
+.env.*
+
+# Screenshots de desenvolvimento (não usados em produção)
+assets/_*.png

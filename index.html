@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Save the Date · Jéssica & Samuel · HAXR Signature</title>
+  <meta name="description" content="Guardem esta data. O primeiro capítulo de uma nova história — Jéssica & Samuel, 15 de Agosto de 2026, Villa Verde. Uma curadoria HAXR Signature." />
+  <meta name="theme-color" content="#F8F4EF" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="HAXR Signature" />
+  <meta property="og:title" content="Save the Date · Jéssica & Samuel" />
+  <meta property="og:description" content="O primeiro capítulo de uma nova história. 15 de Agosto de 2026 · Villa Verde. Guardem esta data." />
+  <meta property="og:image" content="assets/target-cover.png" />
+  <meta property="og:image:alt" content="Jéssica & Samuel" />
+  <meta property="og:locale" content="pt_PT" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Save the Date · Jéssica & Samuel" />
+  <meta name="twitter:description" content="O primeiro capítulo de uma nova história. 15 de Agosto de 2026 · Villa Verde." />
+  <meta name="twitter:image" content="assets/target-cover.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Great+Vibes&family=Jost:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- ============ Cena / Livro ============ -->
+  <main class="stage">
+    <div class="book" id="book">
+
+      <!-- Página interior — Hero editorial com foto de fundo -->
+      <section class="page page--inside page--hero" aria-label="Página interior — Jéssica e Samuel">
+        <img class="inside__photo"
+             src="assets/couple.jpg"
+             alt="Jéssica e Samuel"
+             loading="eager"
+             decoding="async" />
+        <div class="inside__grain" aria-hidden="true"></div>
+        <div class="inside__overlay" aria-hidden="true"></div>
+        <div class="inside__frame" aria-hidden="true"></div>
+
+        <header class="hero__header" aria-hidden="true">
+          <span class="hero__mark hero__mark--left">Capítulo&nbsp;I</span>
+          <span class="hero__mark hero__mark--right">MMXXVI</span>
+        </header>
+
+        <p class="hero__sidemark" aria-hidden="true">
+          Jéssica &amp; Samuel &middot; HAXR Archive &middot; MMXXVI
+        </p>
+
+        <div class="inside__content inside__content--hero">
+          <p class="kicker kicker--hero">O capítulo começa aqui</p>
+
+          <div class="hero__block">
+            <h1 class="names names--hero">
+              <span class="names__line">Jéssica Muege</span>
+              <span class="amp" aria-hidden="true">&amp;</span>
+              <span class="names__line">Samuel Govene</span>
+              <span class="sr-only">Jéssica Muege e Samuel Govene</span>
+            </h1>
+            <div class="rule rule--hero" aria-hidden="true"><span></span><i></i><span></span></div>
+          </div>
+        </div>
+
+        <aside class="hero__details" aria-hidden="true">
+          <span class="hero__divider" aria-hidden="true"></span>
+          <p class="hero__day">15</p>
+          <span class="hero__divider hero__divider--short" aria-hidden="true"></span>
+          <p class="hero__when">Agosto &middot; MMXXVI</p>
+          <span class="hero__divider hero__divider--short" aria-hidden="true"></span>
+          <p class="hero__place">Villa Verde</p>
+        </aside>
+
+        <p class="countdown" id="countdown" aria-live="polite">
+          <span class="countdown__rule" aria-hidden="true"></span>
+          <span class="countdown__text" id="countdownText">…</span>
+          <span class="countdown__rule" aria-hidden="true"></span>
+        </p>
+
+        <button type="button" class="hero__cta" id="rsvpOpen" aria-haspopup="dialog" aria-controls="rsvpDialog">
+          <span class="hero__cta-label">Confirmar Presença</span>
+        </button>
+
+        <footer class="hero__edition" aria-hidden="true">
+          <span>HAXR</span>
+          <i></i>
+          <span>Signature Edition &middot; N.&ordm; 01</span>
+        </footer>
+      </section>
+
+      <!-- Capa do livro (recriada em código — igual ao mockup) -->
+      <div class="cover" id="cover" role="button" tabindex="0"
+           aria-label="Save the Date — Jéssica e Samuel. 15 de Agosto de 2026. O primeiro capítulo de uma nova história. HAXR Signature. Toque para abrir ou fechar."
+           aria-expanded="false">
+        <div class="cover__face cover__front">
+          <!-- Canvas fixo 1080×1920 — escala proporcional via JS -->
+          <div class="cover__canvas" aria-hidden="false">
+            <!-- materiais reais (PNG sem fundo) -->
+            <img class="cover__branch cover__branch--tr" src="assets/branch-tr.png" alt="" decoding="async" loading="eager" aria-hidden="true" />
+            <img class="cover__branch cover__branch--bl" src="assets/branch-bl.png" alt="" decoding="async" loading="eager" aria-hidden="true" />
+
+            <img class="cover__frame-img" src="assets/frame.png" alt="" decoding="async" loading="eager" aria-hidden="true" />
+
+            <img class="cover-floral cover-floral--tl" src="assets/rose-tl.png" alt="" decoding="async" loading="eager" aria-hidden="true" />
+            <img class="cover-floral cover-floral--br" src="assets/rose-br.png" alt="" decoding="async" loading="eager" aria-hidden="true" />
+
+            <svg class="cover__fleur" viewBox="0 0 22 26" aria-hidden="true" focusable="false">
+              <path fill="currentColor" d="M11 1c1.6 3.8 5 5 7 7.8-2.6.6-4.8 2.4-5.8 4.8.9-3.2 2.6-5.6 5.2-7.2-2.3 1.5-4 3.8-4.8 6.5 1.1-2.2 3-3.8 5.6-4.5-1.9-2.4-4.8-3.5-7.2-7.6zm0 24c-1.6-3.8-5-5-7-7.8 2.6-.6 4.8-2.4 5.8-4.8-.9 3.2-2.6 5.6-5.2 7.2 2.3-1.5 4-3.8 4.8-6.5-1.1 2.2-3 3.8-5.6 4.5 1.9 2.4 4.8 3.5 7.2 7.6z"/>
+            </svg>
+
+            <p class="cover__kicker">Save the Date</p>
+
+            <h2 class="cover__names">
+              <span class="cover__name">Jéssica Muege</span>
+              <span class="cover__amp">&amp;</span>
+              <span class="cover__name">Samuel Govene</span>
+            </h2>
+
+            <div class="cover__ornament cover__ornament--1" aria-hidden="true"><span></span><i></i><span></span></div>
+
+            <p class="cover__date">15 de Agosto de 2026</p>
+
+            <svg class="cover__illus cover__illus--pages" viewBox="0 0 52 40" aria-hidden="true" focusable="false">
+              <path fill="none" stroke="currentColor" stroke-width="0.75" d="M6 6h22v30H6z" opacity="0.5"/>
+              <path fill="none" stroke="currentColor" stroke-width="0.7" d="M9 6h22v30H9z" opacity="0.65"/>
+              <path fill="none" stroke="currentColor" stroke-width="0.85" d="M26 6c10 1 14 10 12 20 8 2 12 8 10 16H26V6z"/>
+              <path fill="none" stroke="currentColor" stroke-width="0.5" d="M30 12c4 6 5 12 4 18" opacity="0.6"/>
+            </svg>
+
+            <svg class="cover__book" viewBox="0 0 54 42" aria-hidden="true" focusable="false">
+              <path fill="none" stroke="currentColor" stroke-width="1.1" d="M9 11h15v25H9V11zm21 0h15v25H30V11z"/>
+              <path fill="none" stroke="currentColor" stroke-width="0.95" d="M27 11v25"/>
+              <path fill="none" stroke="currentColor" stroke-width="0.9" d="M27 9c-4.8 2.4-9.5 0-12-4M27 9c4.8 2.4 9.5 0 12-4"/>
+              <path fill="none" stroke="currentColor" stroke-width="0.85" d="M27 6.5c-2.4 4.5-2.4 9 0 13.5 2.4-4.5 2.4-9 0-13.5"/>
+            </svg>
+
+            <p class="cover__illus cover__chapter" aria-hidden="true">Cap. I</p>
+
+            <p class="cover__tagline">O primeiro capítulo<br />de uma nova história</p>
+
+            <svg class="cover__illus cover__illus--feather" viewBox="0 0 32 72" aria-hidden="true" focusable="false">
+              <path fill="none" stroke="currentColor" stroke-width="0.85" stroke-linecap="round" d="M16 4v64"/>
+              <path fill="none" stroke="currentColor" stroke-width="0.55" d="M16 10C8 14 5 22 4 32c2 8 6 14 12 18"/>
+              <path fill="none" stroke="currentColor" stroke-width="0.55" d="M16 14C22 18 26 26 27 34c-1 7-4 12-11 16"/>
+              <path fill="none" stroke="currentColor" stroke-width="0.45" d="M16 20C11 24 9 30 8 36M16 24C20 28 22 32 22 38" opacity="0.55"/>
+              <path fill="none" stroke="currentColor" stroke-width="0.7" d="M16 60l-3 6h6l-3-6" opacity="0.7"/>
+            </svg>
+
+            <div class="cover__ornament cover__ornament--2" aria-hidden="true"><span></span><i></i><span></span></div>
+
+            <p class="cover__brand">
+              <span class="cover__brand-main">HAXR</span>
+              <span class="cover__brand-script">Signature</span>
+            </p>
+          </div>
+        </div>
+        <div class="cover__face cover__back" aria-hidden="true">
+          <div class="cover__lining" aria-hidden="true"></div>
+        </div>
+        <span class="cover__edge" aria-hidden="true"></span>
+        <span class="cover__hinge" aria-hidden="true"></span>
+        <span class="cover__spine" aria-hidden="true"></span>
+      </div>
+
+      <span class="book__binding" aria-hidden="true"></span>
+    </div>
+
+    <!-- Hint de gesto editorial — convida ao primeiro toque -->
+    <p class="book-hint" id="bookHint" aria-hidden="true">
+      <span class="book-hint__rule" aria-hidden="true"></span>
+      <span class="book-hint__text">Toca para abrir o capítulo</span>
+      <span class="book-hint__rule" aria-hidden="true"></span>
+    </p>
+  </main>
+
+  <!-- ============ Trilha sonora HAXR ============ -->
+  <audio id="bg-music"
+         src="assets/music/everything-is-romantic.mp3"
+         preload="auto"
+         loop
+         aria-hidden="true"></audio>
+
+  <button type="button"
+          class="music-toggle"
+          id="musicToggle"
+          aria-label="Pausar música de fundo"
+          aria-pressed="true"
+          hidden>
+    <span class="music-toggle__icon music-toggle__icon--playing" aria-hidden="true">
+      <svg viewBox="0 0 24 24" focusable="false">
+        <path d="M9 4.5C9 3.67 9.67 3 10.5 3h2c.83 0 1.5.67 1.5 1.5V14h-3V4.5z"
+              fill="currentColor" opacity="0.92"/>
+        <circle cx="8" cy="16.5" r="3" fill="currentColor"/>
+        <circle cx="14" cy="18.5" r="3" fill="currentColor"/>
+        <path d="M11 14V5h2v9" stroke="currentColor" stroke-width="0.6"
+              stroke-linecap="round" fill="none" opacity="0.6"/>
+      </svg>
+    </span>
+    <span class="music-toggle__icon music-toggle__icon--paused" aria-hidden="true">
+      <svg viewBox="0 0 24 24" focusable="false">
+        <rect x="7" y="6" width="3.5" height="12" rx="0.6" fill="currentColor"/>
+        <rect x="13.5" y="6" width="3.5" height="12" rx="0.6" fill="currentColor"/>
+      </svg>
+    </span>
+  </button>
+
+  <!-- ============ RSVP · Modal editorial HAXR ============ -->
+  <dialog class="rsvp" id="rsvpDialog" aria-labelledby="rsvpTitle" aria-describedby="rsvpDesc">
+    <form method="dialog" class="rsvp__panel" novalidate>
+      <button type="button" class="rsvp__close" id="rsvpClose" aria-label="Fechar">
+        <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+          <path d="M3 3l10 10M13 3L3 13" stroke="currentColor" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+        </svg>
+      </button>
+
+      <header class="rsvp__header">
+        <p class="rsvp__kicker">Confirmação de Presença</p>
+        <i class="rsvp__diamond" aria-hidden="true"></i>
+        <h2 class="rsvp__title" id="rsvpTitle">Jéssica Muege <span>&amp;</span> Samuel Govene</h2>
+        <p class="rsvp__sub" id="rsvpDesc">15 de Agosto de 2026 &middot; Villa Verde</p>
+      </header>
+
+      <!-- ESTADO IDLE — formulário -->
+      <div class="rsvp__state rsvp__state--idle" data-state="idle">
+        <div class="rsvp__field">
+          <label for="rsvpNome">Nome do convidado</label>
+          <input type="text" id="rsvpNome" name="nome" required minlength="2" autocomplete="name" />
+          <span class="rsvp__error" data-error-for="nome"></span>
+        </div>
+
+        <div class="rsvp__field">
+          <label for="rsvpEmail">Email</label>
+          <input type="email" id="rsvpEmail" name="email" required autocomplete="email" inputmode="email" />
+          <span class="rsvp__error" data-error-for="email"></span>
+        </div>
+
+        <div class="rsvp__row">
+          <div class="rsvp__field">
+            <label for="rsvpTelefone">Telefone</label>
+            <input type="tel" id="rsvpTelefone" name="telefone" autocomplete="tel" inputmode="tel" />
+          </div>
+          <div class="rsvp__field rsvp__field--small">
+            <label for="rsvpAcomp">Acompanhantes</label>
+            <select id="rsvpAcomp" name="acompanhantes">
+              <option value="0">0</option>
+              <option value="1">1</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="rsvp__field">
+          <label for="rsvpMsg">Mensagem para os noivos <span class="rsvp__optional">(opcional)</span></label>
+          <textarea id="rsvpMsg" name="mensagem" rows="3" maxlength="500"></textarea>
+        </div>
+
+        <button type="submit" class="rsvp__submit" id="rsvpSubmit">
+          <span class="rsvp__submit-label">Confirmar presença com carinho</span>
+          <span class="rsvp__submit-line" aria-hidden="true"></span>
+        </button>
+
+        <p class="rsvp__legal">
+          Os teus dados serão usados apenas para a organização do evento.
+        </p>
+      </div>
+
+      <!-- ESTADO LOADING -->
+      <div class="rsvp__state rsvp__state--loading" data-state="loading" hidden>
+        <i class="rsvp__loader" aria-hidden="true"></i>
+        <p class="rsvp__loading-text">A enviar a tua confirmação…</p>
+      </div>
+
+      <!-- ESTADO SUCCESS -->
+      <div class="rsvp__state rsvp__state--success" data-state="success" hidden>
+        <i class="rsvp__diamond rsvp__diamond--lg" aria-hidden="true"></i>
+        <p class="rsvp__success-headline">Confirmação recebida com carinho.</p>
+        <p class="rsvp__success-text">Mal podemos esperar para vos ver no nosso primeiro capítulo.</p>
+        <span class="rsvp__success-rule" aria-hidden="true"></span>
+        <p class="rsvp__success-sign">HAXR <em>Signature</em></p>
+      </div>
+
+      <!-- ESTADO ERROR / FALLBACK -->
+      <div class="rsvp__state rsvp__state--error" data-state="error" hidden>
+        <i class="rsvp__diamond" aria-hidden="true"></i>
+        <p class="rsvp__error-headline">A abrir o teu cliente de email…</p>
+        <p class="rsvp__error-text">
+          Não conseguimos enviar online neste momento. Vamos confirmar a tua presença pelo email habitual.
+        </p>
+        <button type="button" class="rsvp__retry" id="rsvpRetry">Tentar enviar online novamente</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="script.js"></script>
+</body>
+</html>
