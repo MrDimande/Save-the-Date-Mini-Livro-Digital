@@ -1,7 +1,7 @@
 # Save the Date · Mini-Livro Digital
 
 **HAXR Signature Edition · N.º 01**  
-Save the Date editorial para **Jéssica Muege & Samuel Govene** — 15 de Agosto de 2026 · Villa Verde.
+Save the Date editorial para **Jéssica Muege & Samuel Govene** — 15 de Agosto de 2026 · Maputo.
 
 Mini-livro interactivo em **HTML, CSS e JavaScript puro**, sem frameworks. Experiência premium, mobile-first, com animação 3D de abertura, trilha sonora, contagem regressiva e sistema de confirmação de presença.
 

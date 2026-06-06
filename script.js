@@ -32,6 +32,7 @@
   var book = document.getElementById("book");
   var cover = document.getElementById("cover");
   var bookHint = document.getElementById("bookHint");
+  var coverTap = document.getElementById("coverTap");
 
   if (book && cover) {
     var isOpen = false;
@@ -40,12 +41,18 @@
     var ANIM_MS = 2400;
 
     var dismissHint = function () {
-      if (hintDismissed || !bookHint) return;
+      if (hintDismissed) return;
       hintDismissed = true;
-      bookHint.classList.add("is-dismissed");
+
+      if (bookHint) bookHint.classList.add("is-dismissed");
+      if (coverTap) coverTap.classList.add("is-dismissed");
+
       window.setTimeout(function () {
         if (bookHint && bookHint.parentNode) {
           bookHint.parentNode.removeChild(bookHint);
+        }
+        if (coverTap && coverTap.parentNode) {
+          coverTap.parentNode.removeChild(coverTap);
         }
       }, 900);
     };
@@ -60,18 +67,27 @@
       /* hint editorial — desaparece para sempre na primeira abertura */
       if (isOpen) dismissHint();
 
-      /* dispara música apenas na primeira abertura — gesto válido p/ mobile */
-      if (isOpen && typeof startMusicOnFirstOpen === "function") {
-        startMusicOnFirstOpen();
+      /* capítulo aberto — música entra; capítulo fechado — música sai */
+      if (isOpen && typeof startMusicOnBookOpen === "function") {
+        startMusicOnBookOpen();
+      } else if (!isOpen && typeof pauseMusicOnBookClose === "function") {
+        pauseMusicOnBookClose();
       }
 
       window.setTimeout(function () { isAnimating = false; }, ANIM_MS);
     };
 
+    var isInteractiveTarget = function (target) {
+      return !!target.closest(
+        "a, button, dialog, input, select, textarea, label, .hero__cta, .countdown, .music-toggle, .rsvp, .rsvp__panel"
+      );
+    };
+
     book.addEventListener("click", function (event) {
-      if (event.target.closest("a")) return;
-      if (event.target.closest("button")) return;
-      if (event.target.closest("dialog")) return;
+      if (isInteractiveTarget(event.target)) return;
+      /* não fechar o livro com o modal RSVP aberto */
+      var rsvp = document.getElementById("rsvpDialog");
+      if (rsvp && rsvp.open) return;
       toggleBook();
     });
 
@@ -87,14 +103,14 @@
   var audio = document.getElementById("bg-music");
   var musicBtn = document.getElementById("musicToggle");
 
-  /* default exposto para o hook do livro — mesmo que o audio não exista */
-  var startMusicOnFirstOpen = function () {};
+  /* hooks expostos para o livro — no-ops se o audio não existir */
+  var startMusicOnBookOpen = function () {};
+  var pauseMusicOnBookClose = function () {};
 
   if (audio && musicBtn) {
     var TARGET_VOLUME = 0.55;
     var FADE_IN_MS = 1500;
     var FADE_OUT_MS = 600;
-    var musicStarted = false;
     var fadeRAF = null;
 
     audio.volume = 0;
@@ -141,30 +157,45 @@
       );
     }
 
-    /* exposto para o livro chamar na 1ª abertura */
-    startMusicOnFirstOpen = function () {
-      if (musicStarted) return;
-      musicStarted = true;
+    function beginPlayback() {
+      showButton();
+      setPausedState(false);
+      fade(TARGET_VOLUME, FADE_IN_MS);
+    }
+
+    /* livro abre — trilha entra com fade (gesto válido p/ mobile) */
+    startMusicOnBookOpen = function () {
+      if (!audio.paused) {
+        beginPlayback();
+        return;
+      }
 
       var playPromise = audio.play();
       if (playPromise && typeof playPromise.then === "function") {
         playPromise
-          .then(function () {
-            showButton();
-            setPausedState(false);
-            fade(TARGET_VOLUME, FADE_IN_MS);
-          })
+          .then(beginPlayback)
           .catch(function () {
             /* browser bloqueou — mostra botão para o utilizador iniciar */
-            musicStarted = false;
             showButton();
             setPausedState(true);
           });
       } else {
-        showButton();
-        setPausedState(false);
-        fade(TARGET_VOLUME, FADE_IN_MS);
+        beginPlayback();
       }
+    };
+
+    /* livro fecha — trilha sai com fade */
+    pauseMusicOnBookClose = function () {
+      if (audio.paused) {
+        setPausedState(true);
+        return;
+      }
+
+      clearFade();
+      fade(0, FADE_OUT_MS, function () {
+        audio.pause();
+        setPausedState(true);
+      });
     };
 
     /* toggle do botão (sem reiniciar) */
@@ -303,11 +334,16 @@
     );
   }
 
-  openBtn.addEventListener("click", function (e) {
+  var handleRsvpOpen = function (e) {
     e.preventDefault();
     e.stopPropagation();
+    if (typeof e.stopImmediatePropagation === "function") {
+      e.stopImmediatePropagation();
+    }
     openDialog();
-  });
+  };
+
+  openBtn.addEventListener("click", handleRsvpOpen);
 
   if (closeBtn) {
     closeBtn.addEventListener("click", function (e) {

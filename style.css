@@ -1,6 +1,6 @@
 /* =========================================================
    HAXR Signature · Save the Date "O Primeiro Capítulo"
-   Jéssica & Samuel · 15.08.2026 · Villa Verde
+   Jéssica & Samuel · 15.08.2026 · Maputo
    ========================================================= */
 
 :root {
@@ -415,7 +415,10 @@ body {
   left: 50%;
   bottom: clamp(64px, 12vw, 104px);
   transform: translateX(-50%);
-  z-index: 5;
+  /* acima da capa 3D quando o livro está aberto — evita toques bloqueados no mobile */
+  z-index: 12;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
 
   display: inline-flex;
   align-items: center;
@@ -1307,6 +1310,112 @@ body {
   margin-left: 0.1em;
 }
 
+/* convite editorial na capa — ornamentos + fleur + narrativa */
+.cover-invite {
+  position: absolute;
+  left: 50%;
+  top: 62.8cqh;
+  transform: translateX(-50%);
+  z-index: 6;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.45cqh;
+  width: 54cqw;
+  margin: 0;
+  pointer-events: none;
+  user-select: none;
+  opacity: 0;
+  animation:
+    cover-invite-in 1.05s var(--ease-lux-reveal) 1.05s forwards,
+    cover-invite-breath 4.8s ease-in-out 2.5s infinite;
+}
+.cover-invite__ornament {
+  display: flex;
+  align-items: center;
+  gap: 0.65cqw;
+  width: 30cqw;
+  margin: 0;
+}
+.cover-invite__ornament span {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--champagne), transparent);
+}
+.cover-invite__ornament i {
+  width: 0.52cqw;
+  height: 0.52cqw;
+  transform: rotate(45deg);
+  background: var(--champagne);
+  flex: none;
+  opacity: 0.9;
+}
+.cover-invite__fleur {
+  width: 1.9cqw;
+  height: auto;
+  color: var(--champagne-deep);
+  opacity: 0.82;
+}
+.cover-invite__text {
+  margin: 0;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 2.55cqw;
+  letter-spacing: 0.14em;
+  color: rgba(122, 31, 43, 0.76);
+  text-align: center;
+  white-space: nowrap;
+  padding-left: 0.14em;
+}
+
+@keyframes cover-invite-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 8px);
+    filter: blur(3px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+    filter: blur(0);
+  }
+}
+@keyframes cover-invite-breath {
+  0%, 100% { opacity: 0.58; }
+  50%      { opacity: 0.92; }
+}
+
+/* livro aberto — convite desaparece */
+.book.is-open .cover-invite,
+.cover-invite.is-dismissed {
+  animation: cover-invite-out 0.75s var(--ease-lux-close) forwards;
+  pointer-events: none;
+}
+@keyframes cover-invite-out {
+  from { opacity: 1; transform: translate(-50%, 0); filter: blur(0); }
+  to   { opacity: 0; transform: translate(-50%, 6px); filter: blur(2px); visibility: hidden; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cover-invite {
+    animation: cover-invite-in 0.6s ease-out 1s forwards;
+  }
+}
+
+@media (max-width: 480px) {
+  .cover-invite {
+    top: 61.5cqh;
+    width: 62cqw;
+  }
+  .cover-invite__ornament {
+    width: 36cqw;
+  }
+  .cover-invite__text {
+    font-size: 2.85cqw;
+  }
+}
+
 /* entrada em sequência — capa (só ao carregar) */
 @keyframes cover-fade-in {
   from { opacity: 0; }
@@ -1530,13 +1639,15 @@ body {
   transform: rotateY(-168deg) translateZ(2px) rotateX(0.25deg);
   box-shadow: var(--shadow-lux-open);
   filter: brightness(0.98) saturate(0.97);
+  /* capa aberta não deve roubar toques à página interior (CTA / RSVP) */
+  pointer-events: none;
 }
 /* garante que a frente nunca aparece espelhada quando aberto */
 .book.is-open .cover__front {
   visibility: hidden;
 }
 .book.is-open { cursor: pointer; }
-.book.is-open .cover { cursor: pointer; }
+.book.is-open .cover { cursor: default; }
 
 /* interior revelado com atraso — como página que respira */
 .inside__content > * {

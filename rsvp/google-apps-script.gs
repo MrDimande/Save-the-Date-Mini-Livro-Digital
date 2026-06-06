@@ -2,6 +2,7 @@
  * =========================================================
  *  HAXR Signature · RSVP — Google Apps Script Web App
  *  Save the Date · Jéssica & Samuel · 15.08.2026 · Villa Verde
+ *  (local interno — no site os convidados veem apenas Maputo)
  * =========================================================
  *
  *  Este script:
