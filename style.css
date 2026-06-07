@@ -124,9 +124,14 @@ body {
   overflow: hidden auto;
   -webkit-overflow-scrolling: touch;
   transform: translateZ(-10px);
-  transition: box-shadow var(--dur-open) var(--ease-lux-open);
+  transition:
+    box-shadow var(--dur-open) var(--ease-lux-open),
+    transform var(--dur-open) var(--ease-lux-open);
 }
 .book.is-open .page--inside {
+  /* iOS: página à frente da capa 3D — evita toques no CTA fecharem o livro */
+  transform: translateZ(18px);
+  z-index: 10;
   box-shadow:
     inset 10px 0 28px -14px rgba(31, 25, 23, 0.14),
     var(--shadow-soft),
@@ -320,9 +325,10 @@ body {
   position: absolute;
   left: 50%;
   bottom: clamp(64px, 12vw, 104px);
-  transform: translateX(-50%);
+  transform: translate3d(-50%, 0, 8px);
   /* acima da capa 3D quando o livro está aberto — evita toques bloqueados no mobile */
   z-index: 12;
+  pointer-events: auto;
   touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
 
@@ -390,7 +396,7 @@ body {
   opacity: 0.9;
 }
 .hero__cta:active {
-  transform: translateX(-50%) translateY(1px);
+  transform: translate3d(-50%, 1px, 8px);
 }
 
 /* contagem regressiva editorial — acima do CTA */
@@ -708,7 +714,7 @@ body {
 }
 /* press/touch — feedback táctil subtil */
 .hero__cta:active {
-  transform: translateX(-50%) translateY(1px);
+  transform: translate3d(-50%, 1px, 8px);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1517,10 +1523,13 @@ body {
 
 /* ---------------- Estado: aberto — assinatura HAXR ---------------- */
 .book.is-open .cover {
-  transform: rotateY(-168deg) translateZ(2px) rotateX(0.25deg);
+  transform: rotateY(-168deg) translateZ(-6px) rotateX(0.25deg);
   box-shadow: var(--shadow-lux-open);
   filter: brightness(0.98) saturate(0.97);
   /* capa aberta não deve roubar toques à página interior (CTA / RSVP) */
+  pointer-events: none;
+}
+.book.is-open .cover * {
   pointer-events: none;
 }
 /* garante que a frente nunca aparece espelhada quando aberto */

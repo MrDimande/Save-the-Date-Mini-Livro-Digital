@@ -28,6 +28,9 @@
     errorMailtoDelayMs: 1200
   };
 
+  /* bloqueia fecho fantasma do livro após toque no CTA (Safari iOS) */
+  var blockBookToggleUntil = 0;
+
   /* ======================= LIVRO ========================= */
   var book = document.getElementById("book");
   var cover = document.getElementById("cover");
@@ -78,11 +81,40 @@
       );
     };
 
-    book.addEventListener("click", function (event) {
-      if (isInteractiveTarget(event.target)) return;
-      /* não fechar o livro com o modal RSVP aberto */
+    var getEventCoords = function (event) {
+      var touch = (event.touches && event.touches[0]) ||
+        (event.changedTouches && event.changedTouches[0]);
+      if (touch) return { x: touch.clientX, y: touch.clientY };
+      return { x: event.clientX, y: event.clientY };
+    };
+
+    var isPointInEl = function (el, x, y) {
+      if (!el || el.hidden || el.getAttribute("aria-hidden") === "true") return false;
+      var rect = el.getBoundingClientRect();
+      if (!rect.width && !rect.height) return false;
+      return x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom;
+    };
+
+    var isOverBookControls = function (event) {
+      if (isInteractiveTarget(event.target)) return true;
+
       var rsvp = document.getElementById("rsvpDialog");
-      if (rsvp && rsvp.open) return;
+      if (rsvp && rsvp.open) return true;
+      if (Date.now() < blockBookToggleUntil) return true;
+
+      var coords = getEventCoords(event);
+      var controls = [
+        document.getElementById("rsvpOpen"),
+        document.getElementById("countdown")
+      ];
+      for (var i = 0; i < controls.length; i++) {
+        if (isPointInEl(controls[i], coords.x, coords.y)) return true;
+      }
+      return false;
+    };
+
+    book.addEventListener("click", function (event) {
+      if (isOverBookControls(event)) return;
       toggleBook();
     });
 
@@ -335,10 +367,21 @@
     if (typeof e.stopImmediatePropagation === "function") {
       e.stopImmediatePropagation();
     }
+    blockBookToggleUntil = Date.now() + 500;
     openDialog();
   };
 
+  var stopBookFromRsvpTouch = function (e) {
+    e.stopPropagation();
+    if (typeof e.stopImmediatePropagation === "function") {
+      e.stopImmediatePropagation();
+    }
+    blockBookToggleUntil = Date.now() + 500;
+  };
+
   openBtn.addEventListener("click", handleRsvpOpen);
+  openBtn.addEventListener("touchstart", stopBookFromRsvpTouch, { capture: true, passive: true });
+  openBtn.addEventListener("touchend", stopBookFromRsvpTouch, { capture: true, passive: true });
 
   if (closeBtn) {
     closeBtn.addEventListener("click", function (e) {
