@@ -86,90 +86,6 @@ body {
   to   { opacity: 1; transform: translateY(0) scale(1); }
 }
 
-/* ---------------- Hint editorial — "Toca para abrir" ---------------- */
-.book-hint {
-  position: fixed;
-  left: 50%;
-  bottom: clamp(20px, 4.5vh, 36px);
-  transform: translateX(-50%);
-  z-index: 6;
-  display: flex;
-  align-items: center;
-  gap: clamp(10px, 1.6vw, 16px);
-  margin: 0;
-  padding: 0;
-  font-family: var(--font-display);
-  font-style: italic;
-  font-weight: 400;
-  font-size: clamp(0.72rem, 1.5vw, 0.86rem);
-  letter-spacing: 0.04em;
-  color: rgba(216, 199, 184, 0.86);
-  text-shadow: 0 1px 12px rgba(31, 25, 23, 0.4);
-  pointer-events: none;
-  user-select: none;
-  white-space: nowrap;
-  opacity: 0;
-  /* fade-in editorial após o livro entrar — convida sem interromper */
-  animation:
-    book-hint-in 1.6s var(--ease-lux-reveal) 1.8s forwards,
-    book-hint-breath 4.2s ease-in-out 3.6s infinite;
-}
-.book-hint__rule {
-  display: inline-block;
-  width: clamp(28px, 6vw, 56px);
-  height: 1px;
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    rgba(216, 199, 184, 0.5) 50%,
-    transparent 100%
-  );
-}
-.book-hint__text {
-  display: inline-block;
-  line-height: 1;
-}
-
-@keyframes book-hint-in {
-  from { opacity: 0; transform: translate(-50%, 8px); }
-  to   { opacity: 0.78; transform: translate(-50%, 0); }
-}
-@keyframes book-hint-breath {
-  0%, 100% { opacity: 0.62; }
-  50%      { opacity: 0.92; }
-}
-
-/* livro aberto — hint desaparece e nunca mais volta */
-.stage:has(.book.is-open) .book-hint,
-.book-hint.is-dismissed {
-  animation: book-hint-out 0.8s var(--ease-lux-close) forwards;
-  pointer-events: none;
-}
-@keyframes book-hint-out {
-  from { opacity: var(--book-hint-current, 0.78); transform: translate(-50%, 0); }
-  to   { opacity: 0; transform: translate(-50%, 6px); visibility: hidden; }
-}
-
-/* respeito por preferências de movimento reduzido */
-@media (prefers-reduced-motion: reduce) {
-  .book-hint {
-    animation:
-      book-hint-in 0.6s ease-out 1s forwards;
-  }
-}
-
-/* mobile — texto mais curto e respiração discreta */
-@media (max-width: 480px) {
-  .book-hint {
-    bottom: clamp(16px, 3vh, 28px);
-    font-size: 0.74rem;
-    gap: 10px;
-  }
-  .book-hint__rule {
-    width: 28px;
-  }
-}
-
 /* lombada / encadernação fixa — bloco de páginas */
 .book__binding {
   position: absolute;
@@ -262,10 +178,8 @@ body {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center 32%;
+  object-position: center 30%;
   z-index: 0;
-  /* atmosfera cinematográfica — saturação subtil, contraste editorial */
-  filter: saturate(0.88) contrast(0.96) brightness(0.94);
   user-select: none;
   -webkit-user-drag: none;
 }
@@ -288,26 +202,18 @@ body {
   inset: 0;
   z-index: 2;
   pointer-events: none;
+  /* base mobile-first — overlay mais leve; desktop refinado em min-width: 601px */
   background:
-    /* fade superior — escurece a zona onde os nomes vivem */
     linear-gradient(180deg,
-      rgba(31, 25, 23, 0.55) 0%,
-      rgba(31, 25, 23, 0.32) 14%,
-      rgba(31, 25, 23, 0.12) 28%,
-      transparent 42%),
-    /* tint marfim/champagne subtil ao topo (suaviza luz residual) */
-    linear-gradient(180deg,
-      rgba(248, 244, 239, 0.10) 0%,
-      transparent 40%),
-    /* wash champagne global — coesão com a capa */
+      rgba(248, 244, 239, 0.18) 0%,
+      rgba(248, 244, 239, 0.05) 26%,
+      transparent 48%),
     linear-gradient(180deg,
       rgba(216, 199, 184, 0.06),
       rgba(216, 199, 184, 0.06)),
-    /* vinheta radial — escurece cantos sem tocar nos rostos */
-    radial-gradient(ellipse 110% 80% at 50% 38%,
+    radial-gradient(ellipse 110% 80% at 50% 36%,
       transparent 52%,
       rgba(31, 25, 23, 0.32) 100%),
-    /* fade cinematográfico ao preto — base da foto (forte p/ legibilidade no terço inferior) */
     linear-gradient(180deg,
       transparent 42%,
       rgba(0, 0, 0, 0.22) 52%,
@@ -491,7 +397,6 @@ body {
 .countdown {
   position: absolute;
   left: 50%;
-  bottom: clamp(120px, 18vw, 162px);
   transform: translateX(-50%);
   z-index: 5;
 
@@ -505,7 +410,6 @@ body {
   font-family: var(--font-display);
   font-style: italic;
   font-weight: 400;
-  font-size: clamp(0.78rem, 2.4vw, 0.95rem);
   letter-spacing: 0.04em;
   color: var(--champagne);
   text-shadow:
@@ -593,16 +497,11 @@ body {
   flex-direction: column;
   align-items: center;
   gap: clamp(0.45rem, 1.6vw, 0.7rem);
-  padding-bottom: clamp(140px, 28vw, 240px);
 }
 
 .names--hero {
   font-family: var(--font-display);
   font-weight: 500;
-  /* nomes editoriais — discretos, deixam o & e a foto respirar */
-  font-size: clamp(1rem, 3.4vw, 1.45rem);
-  line-height: 0.96;
-  letter-spacing: 0.018em;
   color: #f8f4ef;
   text-shadow:
     0 2px 22px rgba(31, 25, 23, 0.7),
@@ -619,11 +518,8 @@ body {
   font-family: var(--font-script);
   font-style: normal;
   font-weight: 400;
-  /* & com presença editorial — domina a hierarquia visual */
-  font-size: 1.65em;
   line-height: 0.55;
   color: var(--rose-soft);
-  margin: 0.08em auto 0.04em;
   text-shadow: 0 3px 18px rgba(31, 25, 23, 0.6);
 }
 
@@ -658,15 +554,11 @@ body {
 /* selo editorial vertical — data + local na coluna direita */
 .hero__details {
   position: absolute;
-  right: clamp(28px, 5vw, 42px);
-  /* desktop: aterra acima do countdown, no tronco/ombros (não nos rostos) */
-  bottom: clamp(130px, 19vw, 178px);
   z-index: 5;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
   text-align: right;
-  gap: clamp(0.4rem, 1.2vw, 0.6rem);
 }
 
 /* divisões finas champagne */
@@ -684,8 +576,6 @@ body {
 .hero__day {
   font-family: var(--font-display);
   font-weight: 500;
-  /* desktop: dia "15" mais discreto p/ não competir com nomes */
-  font-size: clamp(2.2rem, 7.5vw, 2.8rem);
   line-height: 0.92;
   letter-spacing: 0.005em;
   color: var(--rose-soft);
@@ -702,7 +592,6 @@ body {
 .hero__when {
   font-family: var(--font-sans);
   font-weight: 400;
-  font-size: clamp(0.55rem, 1.65vw, 0.62rem);
   letter-spacing: 0.4em;
   text-transform: uppercase;
   color: var(--rose-soft);
@@ -718,7 +607,6 @@ body {
 .hero__place {
   font-family: var(--font-sans);
   font-weight: 400;
-  font-size: clamp(0.5rem, 1.5vw, 0.58rem);
   letter-spacing: 0.46em;
   text-transform: uppercase;
   color: var(--champagne);
@@ -1310,51 +1198,34 @@ body {
   margin-left: 0.1em;
 }
 
-/* convite editorial na capa — ornamentos + fleur + narrativa */
+/* convite na capa — dedo editorial + texto */
 .cover-invite {
   position: absolute;
   left: 50%;
-  top: 62.8cqh;
+  top: 67cqh;
   transform: translateX(-50%);
   z-index: 6;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.45cqh;
+  gap: 0.35cqh;
   width: 54cqw;
   margin: 0;
   pointer-events: none;
   user-select: none;
   opacity: 0;
-  animation:
-    cover-invite-in 1.05s var(--ease-lux-reveal) 1.05s forwards,
-    cover-invite-breath 4.8s ease-in-out 2.5s infinite;
+  animation: cover-invite-in 1.05s var(--ease-lux-reveal) 1.05s forwards;
 }
-.cover-invite__ornament {
-  display: flex;
-  align-items: center;
-  gap: 0.65cqw;
-  width: 30cqw;
-  margin: 0;
-}
-.cover-invite__ornament span {
-  flex: 1;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, var(--champagne), transparent);
-}
-.cover-invite__ornament i {
-  width: 0.52cqw;
-  height: 0.52cqw;
-  transform: rotate(45deg);
-  background: var(--champagne);
-  flex: none;
-  opacity: 0.9;
-}
-.cover-invite__fleur {
-  width: 1.9cqw;
+.cover-invite__tap {
+  display: block;
+  width: 8.8cqw;
   height: auto;
-  color: var(--champagne-deep);
-  opacity: 0.82;
+  object-fit: contain;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-drag: none;
+  opacity: 0.68;
+  animation: cover-invite-tap 2.8s ease-in-out 2.2s infinite;
 }
 .cover-invite__text {
   margin: 0;
@@ -1367,6 +1238,7 @@ body {
   text-align: center;
   white-space: nowrap;
   padding-left: 0.14em;
+  animation: cover-invite-text-breath 4.8s ease-in-out 2.5s infinite;
 }
 
 @keyframes cover-invite-in {
@@ -1381,8 +1253,12 @@ body {
     filter: blur(0);
   }
 }
-@keyframes cover-invite-breath {
-  0%, 100% { opacity: 0.58; }
+@keyframes cover-invite-tap {
+  0%, 100% { transform: translateY(0); }
+  45%, 55% { transform: translateY(3px); }
+}
+@keyframes cover-invite-text-breath {
+  0%, 100% { opacity: 0.62; }
   50%      { opacity: 0.92; }
 }
 
@@ -1401,15 +1277,20 @@ body {
   .cover-invite {
     animation: cover-invite-in 0.6s ease-out 1s forwards;
   }
+  .cover-invite__tap,
+  .cover-invite__text {
+    animation: none;
+  }
 }
 
 @media (max-width: 480px) {
   .cover-invite {
-    top: 61.5cqh;
+    top: 65.2cqh;
     width: 62cqw;
+    gap: 0.4cqh;
   }
-  .cover-invite__ornament {
-    width: 36cqw;
+  .cover-invite__tap {
+    width: 9.5cqw;
   }
   .cover-invite__text {
     font-size: 2.85cqw;
@@ -2213,10 +2094,98 @@ dialog.rsvp[open]::before {
 }
 
 /* ============================================================
+   Hero interior · DESKTOP ONLY (≥ 601px)
+   Todos os ajustes de layout desktop vivem aqui — não afecta mobile
+   ============================================================ */
+@media (min-width: 601px) {
+  .inside__photo {
+    object-position: center 32%;
+    filter: saturate(0.88) contrast(0.96) brightness(0.94);
+  }
+
+  .inside__overlay {
+    background:
+      linear-gradient(180deg,
+        rgba(31, 25, 23, 0.55) 0%,
+        rgba(31, 25, 23, 0.32) 14%,
+        rgba(31, 25, 23, 0.12) 28%,
+        transparent 42%),
+      linear-gradient(180deg,
+        rgba(248, 244, 239, 0.10) 0%,
+        transparent 40%),
+      linear-gradient(180deg,
+        rgba(216, 199, 184, 0.06),
+        rgba(216, 199, 184, 0.06)),
+      radial-gradient(ellipse 110% 80% at 50% 38%,
+        transparent 52%,
+        rgba(31, 25, 23, 0.32) 100%),
+      linear-gradient(180deg,
+        transparent 42%,
+        rgba(0, 0, 0, 0.22) 52%,
+        rgba(0, 0, 0, 0.55) 68%,
+        rgba(0, 0, 0, 0.82) 84%,
+        rgba(0, 0, 0, 0.95) 100%);
+  }
+
+  .hero__block {
+    /* mais respiro abaixo — eleva os nomes no terço superior */
+    padding-bottom: clamp(168px, 31vw, 272px);
+  }
+
+  .names--hero {
+    font-size: clamp(1.42rem, 4.75vw, 2rem);
+    line-height: 0.97;
+    letter-spacing: 0.014em;
+  }
+  .names--hero .amp {
+    font-size: 1.1em;
+    margin: 0.06em auto 0.03em;
+  }
+
+  .hero__details {
+    right: clamp(28px, 5vw, 42px);
+    bottom: clamp(130px, 19vw, 178px);
+    gap: clamp(0.4rem, 1.2vw, 0.6rem);
+  }
+
+  .hero__day {
+    font-size: clamp(2.2rem, 7.5vw, 2.8rem);
+  }
+  .hero__when {
+    font-size: clamp(0.55rem, 1.65vw, 0.62rem);
+  }
+  .hero__place {
+    font-size: clamp(0.5rem, 1.5vw, 0.58rem);
+  }
+
+  .countdown {
+    bottom: clamp(102px, 15.5vw, 138px);
+    font-size: clamp(0.78rem, 2.4vw, 0.95rem);
+  }
+
+  .hero__cta {
+    bottom: clamp(48px, 9.5vw, 78px);
+  }
+
+  .hero__sidemark {
+    left: clamp(9px, 1.7vw, 16px);
+  }
+
+  .hero__edition {
+    bottom: clamp(28px, 5.2vw, 38px);
+  }
+}
+
+/* ============================================================
    Hero interior · ajustes mobile (≤ 600px)
    Sobe nomes para cima dos rostos · força quebra "Jéssica &" / "Samuel"
    ============================================================ */
 @media (max-width: 600px) {
+  .inside__photo {
+    object-position: center 30%;
+    filter: saturate(0.96) contrast(1.02) brightness(1.01);
+  }
+
   /* nomes — formato editorial em 3 linhas (Jéssica Muege / & / Samuel Govene) */
   .names--hero {
     font-size: clamp(1.5rem, 7.5vw, 2.1rem);
@@ -2226,8 +2195,8 @@ dialog.rsvp[open]::before {
     padding: 0 0.2em;
   }
   .names--hero .amp {
-    font-size: 1.3em;
-    margin: 0.14em auto 0.06em;
+    font-size: 0.92em;
+    margin: 0.08em auto 0.04em;
   }
 
   /* sobe o bloco de nomes — distância proporcional à altura da página */
@@ -2279,7 +2248,7 @@ dialog.rsvp[open]::before {
     font-size: clamp(1.3rem, 7vw, 1.8rem);
   }
   .names--hero .amp {
-    font-size: 1.35em;
+    font-size: 0.95em;
   }
   .hero__block {
     padding-bottom: 50vh;

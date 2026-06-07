@@ -31,7 +31,6 @@
   /* ======================= LIVRO ========================= */
   var book = document.getElementById("book");
   var cover = document.getElementById("cover");
-  var bookHint = document.getElementById("bookHint");
   var coverTap = document.getElementById("coverTap");
 
   if (book && cover) {
@@ -44,13 +43,9 @@
       if (hintDismissed) return;
       hintDismissed = true;
 
-      if (bookHint) bookHint.classList.add("is-dismissed");
       if (coverTap) coverTap.classList.add("is-dismissed");
 
       window.setTimeout(function () {
-        if (bookHint && bookHint.parentNode) {
-          bookHint.parentNode.removeChild(bookHint);
-        }
         if (coverTap && coverTap.parentNode) {
           coverTap.parentNode.removeChild(coverTap);
         }
