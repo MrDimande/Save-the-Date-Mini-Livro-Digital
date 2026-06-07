@@ -2180,8 +2180,48 @@ dialog.rsvp[open]::before {
     left: clamp(9px, 1.7vw, 16px);
   }
 
+  /* topo — espelha o footer editorial (micro-tipografia discreta) */
+  .hero__header {
+    font-size: clamp(0.42rem, 1.05vw, 0.48rem);
+    letter-spacing: 0.36em;
+    color: rgba(232, 219, 204, 0.72);
+  }
+  .hero__mark {
+    padding-left: 0.36em;
+  }
+  .hero__mark--left::after,
+  .hero__mark--right::before {
+    width: clamp(12px, 2.4vw, 18px);
+    opacity: 0.65;
+  }
+  .hero__mark--left::after { margin-left: 0.72em; }
+  .hero__mark--right::before { margin-right: 0.72em; }
+
+  .kicker--hero {
+    font-size: clamp(0.84rem, 3.1vw, 0.96rem);
+    letter-spacing: 0.14em;
+    color: rgba(216, 199, 184, 0.88);
+  }
+  .kicker--hero::after {
+    width: 30px;
+    margin-top: 0.75em;
+    opacity: 0.62;
+  }
+
   .hero__edition {
     bottom: clamp(28px, 5.2vw, 38px);
+    gap: 0.72em;
+    font-size: clamp(0.42rem, 1.05vw, 0.48rem);
+    letter-spacing: 0.36em;
+    color: rgba(232, 219, 204, 0.72);
+  }
+  .hero__edition span {
+    padding-left: 0.36em;
+  }
+  .hero__edition i {
+    width: 2.5px;
+    height: 2.5px;
+    opacity: 0.82;
   }
 }
 
@@ -2223,10 +2263,13 @@ dialog.rsvp[open]::before {
   .hero__when { font-size: 0.6rem; letter-spacing: 0.36em; }
   .hero__place { font-size: 0.55rem; letter-spacing: 0.4em; }
 
-  /* sidemark vertical fica mais discreto em mobile */
+  /* sidemark vertical — visível em mobile, discreto */
   .hero__sidemark {
-    font-size: 0.55rem;
-    letter-spacing: 0.36em;
+    display: block;
+    left: clamp(10px, 2.4vw, 16px);
+    font-size: clamp(0.48rem, 1.35vw, 0.55rem);
+    letter-spacing: 0.34em;
+    color: rgba(216, 199, 184, 0.62);
   }
 
   /* R2 · subir o botão de música para não competir com a edition footer */
@@ -2246,13 +2289,14 @@ dialog.rsvp[open]::before {
   }
 }
 
-/* R1 · esconder sidemark vertical em mobile pequeno (≤480px) */
-@media (max-width: 480px) {
-  .hero__sidemark { display: none; }
-}
-
 /* mobile pequeno (iPhone SE / Galaxy S8) */
 @media (max-width: 380px) {
+  .hero__sidemark {
+    left: 8px;
+    font-size: 0.46rem;
+    letter-spacing: 0.3em;
+  }
+
   .names--hero {
     font-size: clamp(1.3rem, 7vw, 1.8rem);
   }
