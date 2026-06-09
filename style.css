@@ -2398,13 +2398,13 @@ dialog.rsvp[open]::before {
   /* sidemark vertical — visível em mobile, discreto */
   .hero__sidemark {
     display: block;
-    left: clamp(10px, 2.4vw, 16px);
+    left: clamp(6px, 1.8vw, 12px);
     font-size: clamp(0.48rem, 1.35vw, 0.55rem);
     letter-spacing: 0.34em;
     color: rgba(216, 199, 184, 0.62);
   }
   .page--dress .hero__sidemark {
-    left: clamp(6px, 1.6vw, 10px);
+    left: clamp(3px, 1vw, 7px);
     color: rgba(94, 23, 34, 0.52);
     text-shadow: 0 1px 4px rgba(248, 244, 239, 0.88);
   }
@@ -2439,12 +2439,12 @@ dialog.rsvp[open]::before {
 /* mobile pequeno (iPhone SE / Galaxy S8) */
 @media (max-width: 380px) {
   .hero__sidemark {
-    left: 8px;
+    left: 5px;
     font-size: 0.46rem;
     letter-spacing: 0.3em;
   }
   .page--dress .hero__sidemark {
-    left: 5px;
+    left: 2px;
     color: rgba(94, 23, 34, 0.55);
   }
   .names--hero {
