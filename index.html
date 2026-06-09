@@ -33,8 +33,11 @@
   <main class="stage">
     <div class="book" id="book">
 
-      <!-- Página interior — Hero editorial com foto de fundo -->
-      <section class="page page--inside page--hero" aria-label="Página interior — Jéssica e Samuel">
+      <!-- Spread interior — Cap. I (hero) + Cap. II (dress code) -->
+      <div class="book__spread" id="bookSpread" data-page="0" aria-live="polite">
+
+      <!-- Capítulo I — Hero editorial com foto de fundo -->
+      <section class="page page--inside page--hero" aria-label="Capítulo I — Jéssica e Samuel" data-page-index="0">
         <img class="inside__photo"
              src="assets/couple.jpg"
              alt="Jéssica e Samuel"
@@ -47,8 +50,7 @@
         <header class="hero__header" aria-hidden="true">
           <span class="hero__mark hero__mark--left">Capítulo&nbsp;I</span>
           <span class="hero__mark hero__mark--right">2026</span>
-        </header>
-
+        </header><!-- /.hero__header -->
         <p class="hero__sidemark" aria-hidden="true">
           Jéssica &amp; Samuel &middot; HAXR Archive &middot; MMXXVI
         </p>
@@ -92,6 +94,104 @@
           <span>Signature Edition &middot; N.&ordm; 01</span>
         </footer>
       </section>
+
+      <!-- Capítulo II — Dress code editorial -->
+      <section class="page page--inside page--dress" aria-label="Capítulo II — Dress code" data-page-index="1" aria-hidden="true">
+        <div class="dress__page-back" aria-hidden="true"></div>
+        <div class="dress__wash" aria-hidden="true"></div>
+        <div class="dress__grain" aria-hidden="true"></div>
+        <div class="dress__overlay" aria-hidden="true"></div>
+        <div class="dress__frame" aria-hidden="true"></div>
+
+        <header class="dress__header" aria-hidden="true">
+          <span class="dress__mark dress__mark--left">Capítulo&nbsp;II</span>
+          <span class="dress__mark dress__mark--right">Dress Code</span>
+        </header>
+
+        <p class="hero__sidemark" aria-hidden="true">
+          Jéssica &amp; Samuel &middot; HAXR Archive &middot; MMXXVI
+        </p>
+
+        <div class="dress__scroll">
+          <p class="dress__kicker">O vestir da festa</p>
+          <h2 class="dress__title">Traje formal de gala</h2>
+          <div class="dress__rule" aria-hidden="true"><span></span><i></i><span></span></div>
+
+          <p class="dress__lead">
+            Pedimos traje elegante de noite. Vestir-se para a ocasião é parte da história que vamos escrever juntos.
+          </p>
+
+          <div class="dress__columns">
+            <article class="dress__col">
+              <h3 class="dress__col-title">Para ela</h3>
+              <p class="dress__col-text">Vestidos longos com presença — sequins, cetim ou tecidos.</p>
+            </article>
+            <article class="dress__col">
+              <h3 class="dress__col-title">Para ele</h3>
+              <p class="dress__col-text">Fato escuro ou smoking, camisa branca e gravata ou borboleta.</p>
+            </article>
+          </div>
+
+          <ul class="dress__palette" aria-label="Paleta de cores sugerida">
+            <li><span class="dress__swatch dress__swatch--burgundy"></span>Burgundy</li>
+            <li><span class="dress__swatch dress__swatch--red"></span>Vermelho</li>
+            <li><span class="dress__swatch dress__swatch--navy"></span>Azul marinho</li>
+            <li><span class="dress__swatch dress__swatch--rose-gold"></span>Rosa gold</li>
+            <li><span class="dress__swatch dress__swatch--champagne"></span>Champagne</li>
+            <li><span class="dress__swatch dress__swatch--rose"></span>Rose</li>
+          </ul>
+
+          <p class="dress__board-kicker">Inspiração editorial</p>
+
+          <div class="dress__board">
+            <figure class="dress__tile dress__tile--feat">
+              <img src="assets/dress-code/her-burgundy.png" alt="Referência feminina — vestido burgundy de gala" loading="lazy" decoding="async" />
+              <figcaption>Para ela</figcaption>
+            </figure>
+            <figure class="dress__tile">
+              <img src="assets/dress-code/men-tuxedo.png" alt="Referência masculina — smoking com borboleta" loading="lazy" decoding="async" />
+              <figcaption>Para ele</figcaption>
+            </figure>
+            <figure class="dress__tile">
+              <img src="assets/dress-code/men-suit.png" alt="Referência masculina — fato escuro formal" loading="lazy" decoding="async" />
+              <figcaption>Para ele</figcaption>
+            </figure>
+            <figure class="dress__tile">
+              <img src="assets/dress-code/her-rose-gold.png" alt="Referência feminina — vestido rosa gold de gala" loading="lazy" decoding="async" />
+              <figcaption>Para ela</figcaption>
+            </figure>
+            <figure class="dress__tile">
+              <img src="assets/dress-code/her-navy.png" alt="Referência feminina — vestido azul marinho de gala" loading="lazy" decoding="async" />
+              <figcaption>Para ela</figcaption>
+            </figure>
+            <figure class="dress__tile">
+              <img src="assets/dress-code/her-red.png" alt="Referência feminina — vestido vermelho de gala" loading="lazy" decoding="async" />
+              <figcaption>Para ela</figcaption>
+            </figure>
+          </div>
+
+          <p class="dress__note">Referências de inspiração não é necessário replicar o modelo exacto.</p>
+        </div>
+
+        <footer class="dress__edition" aria-hidden="true">
+          <span class="dress__edition-main">HAXR</span>
+          <i></i>
+          <span class="dress__edition-script">Signature</span>
+          <span class="dress__edition-sub">Edition &middot; Cap.&nbsp;II</span>
+        </footer>
+      </section>
+
+      <!-- Indicadores de páginas — convite subtil ao gesto (sem botões) -->
+      <span class="book-page-edge book-page-edge--prev" aria-hidden="true" title="Fechar livro"></span>
+      <span class="book-page-edge book-page-edge--next" aria-hidden="true" title="Capítulo II"></span>
+      <p class="book-page-hint book-page-hint--next" id="pageHint" aria-hidden="true">Deslize ou toque · Cap.&nbsp;II</p>
+      <p class="book-page-hint book-page-hint--prev" aria-hidden="true">Toque · fechar</p>
+      <nav class="book-page-folio" aria-label="Páginas do livro" aria-hidden="true">
+        <span class="book-page-folio__dot is-active" data-page-dot="0"></span>
+        <span class="book-page-folio__dot" data-page-dot="1"></span>
+      </nav>
+
+      </div><!-- /.book__spread -->
 
       <!-- Capa do livro (recriada em código — igual ao mockup) -->
       <div class="cover" id="cover" role="button" tabindex="0"

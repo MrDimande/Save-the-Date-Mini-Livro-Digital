@@ -35,12 +35,25 @@
   var book = document.getElementById("book");
   var cover = document.getElementById("cover");
   var coverTap = document.getElementById("coverTap");
+  var bookSpread = document.getElementById("bookSpread");
+  var pageHint = document.getElementById("pageHint");
 
   if (book && cover) {
     var isOpen = false;
     var isAnimating = false;
     var hintDismissed = false;
+    var currentPage = 0;
+    var PAGE_COUNT = 2;
     var ANIM_MS = 2400;
+    var swipeStartX = 0;
+    var swipeStartY = 0;
+    var swipeTracking = false;
+    var swipeMoved = false;
+    var pageHintDismissed = false;
+    var isPageTurning = false;
+    var PAGE_TURN_BLOCK_MS = 980;
+    var PAGE_TURN_ANIM_MS = 920;
+    var SWIPE_MIN_PX = 36;
 
     var dismissHint = function () {
       if (hintDismissed) return;
@@ -55,17 +68,72 @@
       }, 900);
     };
 
+    var dismissPageHint = function () {
+      if (pageHintDismissed) return;
+      pageHintDismissed = true;
+      if (pageHint) pageHint.classList.add("is-dismissed");
+    };
+
+    var updatePageFolio = function (index) {
+      if (!bookSpread) return;
+      var dots = bookSpread.querySelectorAll("[data-page-dot]");
+      for (var i = 0; i < dots.length; i++) {
+        dots[i].classList.toggle("is-active", Number(dots[i].getAttribute("data-page-dot")) === index);
+      }
+    };
+
+    var goToPage = function (index, force) {
+      if (!bookSpread) return;
+      index = Math.max(0, Math.min(PAGE_COUNT - 1, index));
+      if (index === currentPage) {
+        if (!force) return;
+        updatePageFolio(index);
+        return;
+      }
+      if (isPageTurning) return;
+
+      isPageTurning = true;
+      bookSpread.classList.add("is-page-turning");
+      window.setTimeout(function () {
+        bookSpread.classList.remove("is-page-turning");
+        isPageTurning = false;
+      }, PAGE_TURN_ANIM_MS);
+
+      currentPage = index;
+      bookSpread.setAttribute("data-page", String(index));
+      updatePageFolio(index);
+
+      var heroPage = bookSpread.querySelector(".page--hero");
+      var dressPage = bookSpread.querySelector(".page--dress");
+      if (heroPage) heroPage.setAttribute("aria-hidden", index === 0 ? "false" : "true");
+      if (dressPage) dressPage.setAttribute("aria-hidden", index === 1 ? "false" : "true");
+
+      if (index >= 1) dismissPageHint();
+      updatePageHints(index);
+      blockBookToggleUntil = Date.now() + PAGE_TURN_BLOCK_MS;
+
+      if (index === 0 && dressPage) {
+        window.setTimeout(function () {
+          var scroll = dressPage.querySelector(".dress__scroll");
+          if (scroll) scroll.scrollTop = 0;
+        }, PAGE_TURN_ANIM_MS);
+      }
+    };
+
     var toggleBook = function () {
       if (isAnimating) return;
       isAnimating = true;
+      blockBookToggleUntil = Date.now() + ANIM_MS;
       isOpen = !isOpen;
       book.classList.toggle("is-open", isOpen);
       cover.setAttribute("aria-expanded", String(isOpen));
 
+      if (!isOpen) goToPage(0, true);
+
       /* hint editorial — desaparece para sempre na primeira abertura */
       if (isOpen) dismissHint();
 
-      /* capítulo aberto — música entra; capítulo fechado — música sai */
+      /* livro aberto — música entra; livro fechado — música pára */
       if (isOpen && typeof startMusicOnBookOpen === "function") {
         startMusicOnBookOpen();
       } else if (!isOpen && typeof pauseMusicOnBookClose === "function") {
@@ -75,10 +143,108 @@
       window.setTimeout(function () { isAnimating = false; }, ANIM_MS);
     };
 
+    /* toque nas margens — virar página ou fechar (como livro físico) */
+    var handleSpreadPointer = function (coords, target) {
+      if (!isOpen || !isInSpreadBounds(coords.x, coords.y)) return false;
+
+      if (
+        target.closest(".book-page-edge--next") ||
+        isInRightMargin(coords.x, coords.y)
+      ) {
+        if (currentPage < PAGE_COUNT - 1) {
+          handlePageTurn(-1);
+        }
+        return true;
+      }
+
+      if (
+        target.closest(".book-page-edge--prev") ||
+        isInLeftMargin(coords.x, coords.y)
+      ) {
+        if (currentPage > 0) {
+          handlePageTurn(1);
+        } else {
+          toggleBook();
+        }
+        return true;
+      }
+
+      return false;
+    };
+
     var isInteractiveTarget = function (target) {
       return !!target.closest(
-        "a, button, dialog, input, select, textarea, label, .hero__cta, .countdown, .music-toggle, .rsvp, .rsvp__panel"
+        "a, button, dialog, input, select, textarea, label, .hero__cta, .countdown, .music-toggle, .rsvp, .rsvp__panel, .book-page-folio"
       );
+    };
+
+    var isSwipeBlockedTarget = function (target) {
+      return !!target.closest(
+        "button, a, input, select, textarea, label, .hero__cta, .countdown, .music-toggle, .rsvp, .rsvp__panel"
+      );
+    };
+
+    var PAGE_MARGIN_RATIO = 0.18;
+
+    var getSpreadRect = function () {
+      return bookSpread ? bookSpread.getBoundingClientRect() : null;
+    };
+
+    var isInSpreadBounds = function (x, y) {
+      var rect = getSpreadRect();
+      if (!rect) return false;
+      return x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom;
+    };
+
+    /* margem esquerda — página anterior ou fechar no Cap. I */
+    var isInLeftMargin = function (x, y) {
+      var rect = getSpreadRect();
+      if (!rect) return false;
+      return (
+        x >= rect.left &&
+        x <= rect.left + rect.width * PAGE_MARGIN_RATIO &&
+        y >= rect.top &&
+        y <= rect.bottom
+      );
+    };
+
+    /* margem direita — página seguinte */
+    var isInRightMargin = function (x, y) {
+      var rect = getSpreadRect();
+      if (!rect) return false;
+      return (
+        x >= rect.right - rect.width * PAGE_MARGIN_RATIO &&
+        x <= rect.right &&
+        y >= rect.top &&
+        y <= rect.bottom
+      );
+    };
+
+    var updatePageHints = function (index) {
+      if (!bookSpread) return;
+      var prevHint = bookSpread.querySelector(".book-page-hint--prev");
+      var prevEdge = bookSpread.querySelector(".book-page-edge--prev");
+      if (prevHint) {
+        prevHint.innerHTML = index === 0
+          ? "Toque · fechar"
+          : "Toque · Cap.&nbsp;I";
+      }
+      if (prevEdge) {
+        prevEdge.setAttribute("title", index === 0 ? "Fechar livro" : "Capítulo I");
+      }
+    };
+
+    var handlePageTurn = function (direction) {
+      if (!isOpen) return false;
+      if (direction < 0 && currentPage < PAGE_COUNT - 1) {
+        goToPage(currentPage + 1, true);
+        return true;
+      }
+      if (direction > 0 && currentPage > 0) {
+        goToPage(currentPage - 1, true);
+        return true;
+      }
+      return false;
     };
 
     var getEventCoords = function (event) {
@@ -115,8 +281,78 @@
 
     book.addEventListener("click", function (event) {
       if (isOverBookControls(event)) return;
-      toggleBook();
+      if (Date.now() < blockBookToggleUntil) return;
+
+      var coords = getEventCoords(event);
+
+      if (!isOpen) {
+        toggleBook();
+        return;
+      }
+
+      handleSpreadPointer(coords, event.target);
     });
+
+    if (bookSpread) {
+      updatePageFolio(0);
+
+      bookSpread.addEventListener("touchstart", function (event) {
+        if (!isOpen || event.touches.length !== 1) return;
+        if (isSwipeBlockedTarget(event.target)) return;
+        swipeStartX = event.touches[0].clientX;
+        swipeStartY = event.touches[0].clientY;
+        swipeTracking = true;
+        swipeMoved = false;
+      }, { passive: true });
+
+      bookSpread.addEventListener("touchmove", function (event) {
+        if (!swipeTracking || !isOpen || event.touches.length !== 1) return;
+        var dx = event.touches[0].clientX - swipeStartX;
+        var dy = event.touches[0].clientY - swipeStartY;
+        if (Math.abs(dx) > 14 && Math.abs(dx) > Math.abs(dy) * 1.1) {
+          swipeMoved = true;
+          blockBookToggleUntil = Date.now() + PAGE_TURN_BLOCK_MS;
+        }
+      }, { passive: true });
+
+      bookSpread.addEventListener("touchend", function (event) {
+        if (!swipeTracking || !isOpen) return;
+        swipeTracking = false;
+        var touch = event.changedTouches[0];
+        if (!touch) return;
+        var dx = touch.clientX - swipeStartX;
+        var dy = touch.clientY - swipeStartY;
+
+        if (Math.abs(dx) >= SWIPE_MIN_PX && Math.abs(dx) > Math.abs(dy) * 1.1) {
+          if (handlePageTurn(dx < 0 ? -1 : 1)) {
+            event.preventDefault();
+            return;
+          }
+        }
+
+        /* toque curto na margem — virar página ou fechar */
+        if (!swipeMoved && handleSpreadPointer(
+          { x: touch.clientX, y: touch.clientY },
+          event.target
+        )) {
+          event.preventDefault();
+        }
+      }, { passive: false });
+
+      var folio = bookSpread.querySelector(".book-page-folio");
+      if (folio) {
+        folio.addEventListener("click", function (event) {
+          if (!isOpen || Date.now() < blockBookToggleUntil) return;
+          var dot = event.target.closest("[data-page-dot]");
+          if (!dot) return;
+          event.stopPropagation();
+          var idx = Number(dot.getAttribute("data-page-dot"));
+          if (idx !== currentPage) goToPage(idx);
+        });
+      }
+
+      updatePageHints(0);
+    }
 
     cover.addEventListener("keydown", function (event) {
       if (event.key === "Enter" || event.key === " " || event.key === "Spacebar") {
@@ -190,38 +426,45 @@
       fade(TARGET_VOLUME, FADE_IN_MS);
     }
 
-    /* livro abre — trilha entra com fade (gesto válido p/ mobile) */
+    function hideButton() {
+      musicBtn.classList.remove("is-visible");
+    }
+
+    /* livro abre — trilha retoma sempre com fade (gesto válido p/ mobile) */
     startMusicOnBookOpen = function () {
-      if (!audio.paused) {
+      clearFade();
+
+      var resume = function () {
         beginPlayback();
+      };
+
+      if (!audio.paused) {
+        resume();
         return;
       }
 
       var playPromise = audio.play();
       if (playPromise && typeof playPromise.then === "function") {
         playPromise
-          .then(beginPlayback)
+          .then(resume)
           .catch(function () {
             /* browser bloqueou — mostra botão para o utilizador iniciar */
             showButton();
             setPausedState(true);
           });
       } else {
-        beginPlayback();
+        resume();
       }
     };
 
-    /* livro fecha — trilha sai com fade */
+    /* livro fecha por completo — trilha pára com fade */
     pauseMusicOnBookClose = function () {
-      if (audio.paused) {
-        setPausedState(true);
-        return;
-      }
-
       clearFade();
       fade(0, FADE_OUT_MS, function () {
         audio.pause();
+        audio.volume = 0;
         setPausedState(true);
+        hideButton();
       });
     };
 
