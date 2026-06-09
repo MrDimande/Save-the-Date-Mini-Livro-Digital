@@ -2423,6 +2423,17 @@ dialog.rsvp[open]::before {
   .countdown__rule {
     width: clamp(22px, 4.5vw, 32px);
   }
+
+  /* dress code — espaço para rodapé, folio e botão de música */
+  .dress__scroll {
+    padding-bottom: clamp(132px, 30vw, 168px);
+  }
+  .dress__board {
+    margin-bottom: 1em;
+  }
+  .dress__note {
+    margin-bottom: 0.35em;
+  }
 }
 
 /* mobile pequeno (iPhone SE / Galaxy S8) */
@@ -2967,9 +2978,14 @@ dialog.rsvp[open]::before {
   aspect-ratio: 3 / 4;
 }
 .dress__tile--feat {
-  grid-column: span 2;
+  grid-column: 1 / -1;
   aspect-ratio: 16 / 9;
   border-color: rgba(122, 31, 43, 0.22);
+}
+/* mobile — última referência em largura total (evita tile órfão cortado) */
+.dress__tile:last-child:not(.dress__tile--feat) {
+  grid-column: 1 / -1;
+  aspect-ratio: 16 / 10;
 }
 .dress__tile img {
   display: block;
@@ -3067,7 +3083,17 @@ dialog.rsvp[open]::before {
   .dress__kicker { font-size: clamp(0.54rem, 1.2vw, 0.6rem); }
   .dress__title { font-size: clamp(1.32rem, 3.6vw, 1.58rem); }
   .dress__lead { font-size: clamp(0.78rem, 2.1vw, 0.88rem); }
-  .dress__board { gap: 10px; }
+  .dress__board {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+  .dress__tile--feat {
+    aspect-ratio: 21 / 9;
+  }
+  .dress__tile:last-child:not(.dress__tile--feat) {
+    grid-column: auto;
+    aspect-ratio: 3 / 4;
+  }
   .dress__edition { font-size: clamp(0.42rem, 1.05vw, 0.48rem); }
 }
 
