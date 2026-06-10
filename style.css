@@ -194,6 +194,7 @@ body {
 }
 .book__spread.is-page-turning .book-page-edge,
 .book__spread.is-page-turning .book-page-fold,
+.book__spread.is-page-turning .book-page-tap,
 .book__spread.is-page-turning .book-page-folio {
   opacity: 0 !important;
   pointer-events: none;
@@ -1414,6 +1415,12 @@ body {
   .cover-invite__text {
     animation: none;
   }
+  .book-page-tap {
+    animation: book-page-tap-in 0.6s ease-out 2.3s forwards;
+  }
+  .book-page-tap .cover-invite__tap {
+    animation: none;
+  }
 }
 
 @media (max-width: 480px) {
@@ -1424,6 +1431,9 @@ body {
   }
   .cover-invite__tap {
     width: 9.5cqw;
+  }
+  .book-page-tap .cover-invite__tap {
+    width: clamp(30px, 9.5vw, 44px);
   }
   .cover-invite__text {
     font-size: 2.85cqw;
@@ -2826,6 +2836,54 @@ dialog.rsvp[open]::before {
   visibility: hidden;
   animation: none !important;
 }
+
+/* dedo indicador — mesma regra da capa (.cover-invite__tap) */
+.book-page-tap {
+  position: absolute;
+  right: clamp(10px, 2.8vw, 18px);
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 15;
+  margin: 0;
+  padding: 0;
+  line-height: 0;
+  background: none;
+  border: none;
+  box-shadow: none;
+  pointer-events: none;
+  user-select: none;
+  opacity: 0;
+}
+.book-page-tap .cover-invite__tap {
+  width: clamp(28px, 8.8vw, 42px);
+}
+.book.is-open .book__spread[data-page="0"] .book-page-tap {
+  animation: book-page-tap-in 1.05s var(--ease-lux-reveal) 2.3s forwards;
+}
+.book__spread[data-page="1"] .book-page-tap {
+  opacity: 0 !important;
+  visibility: hidden;
+  animation: none !important;
+}
+.book-page-tap.is-dismissed {
+  animation: book-page-tap-out 0.75s var(--ease-lux-close) forwards;
+  pointer-events: none;
+}
+@keyframes book-page-tap-in {
+  from {
+    opacity: 0;
+    transform: translateY(calc(-50% + 8px));
+  }
+  to {
+    opacity: 1;
+    transform: translateY(-50%);
+  }
+}
+@keyframes book-page-tap-out {
+  from { opacity: 1; transform: translateY(-50%); }
+  to   { opacity: 0; transform: translateY(calc(-50% + 6px)); visibility: hidden; }
+}
+
 @keyframes page-fold-in-right {
   from { opacity: 0; transform: translateX(4px); }
   to   { opacity: 0.94; transform: translateX(0); }
@@ -3192,7 +3250,8 @@ dialog.rsvp[open]::before {
 }
 
 @media (min-width: 601px) {
-  .book-page-fold { display: none; }
+  .book-page-fold,
+  .book-page-tap { display: none; }
   .dress__mark { font-size: clamp(0.42rem, 1.05vw, 0.48rem); }
   .dress__kicker { font-size: clamp(0.54rem, 1.2vw, 0.6rem); }
   .dress__title { font-size: clamp(1.32rem, 3.6vw, 1.58rem); }
@@ -3220,6 +3279,8 @@ dialog.rsvp[open]::before {
   .book.is-open .book__spread[data-page="1"] .book-page-fold--prev {
     opacity: 0.94;
   }
+  .book-page-tap { animation: book-page-tap-in 0.6s ease-out 2.3s forwards; }
+  .book-page-tap .cover-invite__tap { animation: none; }
   .page--dress .hero__sidemark { transition: none; }
   .book__spread[data-page="1"] .page--dress .hero__sidemark { opacity: 1; }
 }

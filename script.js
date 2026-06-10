@@ -37,6 +37,7 @@
   var coverTap = document.getElementById("coverTap");
   var bookSpread = document.getElementById("bookSpread");
   var pageHint = document.getElementById("pageHint");
+  var pageTap = document.getElementById("pageTap");
 
   if (book && cover) {
     var isOpen = false;
@@ -72,6 +73,7 @@
       if (pageHintDismissed) return;
       pageHintDismissed = true;
       if (pageHint) pageHint.classList.add("is-dismissed");
+      if (pageTap) pageTap.classList.add("is-dismissed");
     };
 
     var updatePageFolio = function (index) {
