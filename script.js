@@ -222,12 +222,10 @@
 
     var updatePageHints = function (index) {
       if (!bookSpread) return;
-      var prevHint = bookSpread.querySelector(".book-page-hint--prev");
+      var prevFoldText = bookSpread.querySelector(".book-page-fold--prev .book-page-fold__text");
       var prevEdge = bookSpread.querySelector(".book-page-edge--prev");
-      if (prevHint) {
-        prevHint.innerHTML = index === 0
-          ? "Toque · fechar"
-          : "Toque · Cap.&nbsp;I";
+      if (prevFoldText) {
+        prevFoldText.textContent = "Puxe";
       }
       if (prevEdge) {
         prevEdge.setAttribute("title", index === 0 ? "Fechar livro" : "Capítulo I");

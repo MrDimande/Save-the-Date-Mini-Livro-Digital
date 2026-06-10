@@ -124,22 +124,13 @@
           <div class="dress__columns">
             <article class="dress__col">
               <h3 class="dress__col-title">Para ela</h3>
-              <p class="dress__col-text">Vestidos longos com presença — sequins, cetim ou tecidos.</p>
+              <p class="dress__col-text">Vestido longo brilhante. Qualquer cor é permitida, excepto branco.</p>
             </article>
             <article class="dress__col">
               <h3 class="dress__col-title">Para ele</h3>
-              <p class="dress__col-text">Fato escuro ou smoking, camisa branca e gravata ou borboleta.</p>
+              <p class="dress__col-text">Fato preto ou smoking preto, camisa branca e gravata preta.</p>
             </article>
           </div>
-
-          <ul class="dress__palette" aria-label="Paleta de cores sugerida">
-            <li><span class="dress__swatch dress__swatch--burgundy"></span>Burgundy</li>
-            <li><span class="dress__swatch dress__swatch--red"></span>Vermelho</li>
-            <li><span class="dress__swatch dress__swatch--navy"></span>Azul marinho</li>
-            <li><span class="dress__swatch dress__swatch--rose-gold"></span>Rosa gold</li>
-            <li><span class="dress__swatch dress__swatch--champagne"></span>Champagne</li>
-            <li><span class="dress__swatch dress__swatch--rose"></span>Rose</li>
-          </ul>
 
           <p class="dress__board-kicker">Inspiração editorial</p>
 
@@ -170,7 +161,7 @@
             </figure>
           </div>
 
-          <p class="dress__note">Referências de inspiração não é necessário replicar o modelo exacto.</p>
+          <p class="dress__note">Inspirem-se nas referências abaixo — não é necessário replicar o modelo exacto.</p>
         </div>
 
         <footer class="dress__edition" aria-hidden="true">
@@ -181,11 +172,29 @@
         </footer>
       </section>
 
-      <!-- Indicadores de páginas — convite subtil ao gesto (sem botões) -->
+      <!-- Navegação editorial — zonas invisíveis + canto dobrado (sem UI) -->
       <span class="book-page-edge book-page-edge--prev" aria-hidden="true" title="Fechar livro"></span>
       <span class="book-page-edge book-page-edge--next" aria-hidden="true" title="Capítulo II"></span>
-      <p class="book-page-hint book-page-hint--next" id="pageHint" aria-hidden="true">Deslize ou toque · Cap.&nbsp;II</p>
-      <p class="book-page-hint book-page-hint--prev" aria-hidden="true">Toque · fechar</p>
+      <div class="book-page-fold book-page-fold--next" id="pageHint" aria-hidden="true">
+        <span class="book-page-fold__cast" aria-hidden="true"></span>
+        <span class="book-page-fold__shadow" aria-hidden="true"></span>
+        <span class="book-page-fold__underside" aria-hidden="true"></span>
+        <span class="book-page-fold__leaf" aria-hidden="true"></span>
+        <span class="book-page-fold__crease" aria-hidden="true"></span>
+        <span class="book-page-fold__arc book-page-fold__arc--1" aria-hidden="true"></span>
+        <span class="book-page-fold__arc book-page-fold__arc--2" aria-hidden="true"></span>
+        <span class="book-page-fold__text">Puxe</span>
+      </div>
+      <div class="book-page-fold book-page-fold--prev" aria-hidden="true">
+        <span class="book-page-fold__cast" aria-hidden="true"></span>
+        <span class="book-page-fold__shadow" aria-hidden="true"></span>
+        <span class="book-page-fold__underside" aria-hidden="true"></span>
+        <span class="book-page-fold__leaf" aria-hidden="true"></span>
+        <span class="book-page-fold__crease" aria-hidden="true"></span>
+        <span class="book-page-fold__arc book-page-fold__arc--1" aria-hidden="true"></span>
+        <span class="book-page-fold__arc book-page-fold__arc--2" aria-hidden="true"></span>
+        <span class="book-page-fold__text">Puxe</span>
+      </div>
       <nav class="book-page-folio" aria-label="Páginas do livro" aria-hidden="true">
         <span class="book-page-folio__dot is-active" data-page-dot="0"></span>
         <span class="book-page-folio__dot" data-page-dot="1"></span>
